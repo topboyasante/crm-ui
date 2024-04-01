@@ -1,6 +1,7 @@
 "use client";
 import { CircleUser, Menu } from "lucide-react";
 import Link from "next/link";
+import { cn } from "@/lib/utils";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -16,6 +17,7 @@ import { ModeToggle } from "@/components/ui/mode-toggle";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { NAV_LINKS } from "@/constants/nav-links";
 import { ReactNode, useState } from "react";
+import { usePathname } from "next/navigation";
 
 type Props = {
   children: ReactNode;
@@ -23,6 +25,7 @@ type Props = {
 
 export function Navbar({ children }: Props) {
   const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
       <div className="hidden border-r bg-muted/40 md:block">
@@ -49,7 +52,13 @@ export function Navbar({ children }: Props) {
                           <Link
                             href={item.link}
                             key={item.id}
-                            className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
+                            className={cn(
+                              "flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary",
+                              {
+                                "text-primary font-semibold":
+                                  pathname === `${item.link}`,
+                              }
+                            )}
                           >
                             {item.icon}
                             <p className="text-sm">{item.name}</p>
@@ -137,8 +146,8 @@ export function Navbar({ children }: Props) {
             </DropdownMenu>
           </div>
         </header>
-        <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
-          <div>{children}</div>
+        <main className="flex flex-1 flex-col gap-4 p-2 lg:gap-6 lg:p-4 h-full">
+          <div className="overflow-y-auto">{children}</div>
         </main>
       </div>
     </div>

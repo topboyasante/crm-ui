@@ -18,6 +18,10 @@ const config = {
       },
     },
     extend: {
+      gridTemplateColumns: {
+        feed: "60% 40%",
+        announcement: "45% auto",
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
